@@ -10,7 +10,7 @@ describe('CategoryService', () => {
     collection: (someString) => {
     }
   };
-  
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [CategoryService, {provide: AngularFirestore, useValue: AngularFirestoreStub}]
@@ -35,12 +35,15 @@ describe('CategoryService', () => {
 
 
   it('getCategories should return CATEGORIES', inject([CategoryService], (service: CategoryService) => {
-    //expect(CATEGORIES === service.getCategory());
+    expect(CATEGORIES === service.getCategory());
    service.getCategory().subscribe(categories => {
      expect(CATEGORIES === categories);
    });
 
   }));
+
+
+
 
 });
     // TODO Convert categories into entities.
