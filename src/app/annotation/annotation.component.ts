@@ -84,9 +84,6 @@ export class AnnotationComponent implements OnInit, OnDestroy {
     // Lire le fichier stocké pour en extraire le texte
     const URL = await firebase.storage().ref().child('Projects/' + this.currentDoc.documentId + '/' + this.currentDoc.title).getDownloadURL();
     let text = await this.http.get(URL, {responseType: 'text'}).toPromise();
-    // Interface d'annotation actuelle
-    const texthtml = document.getElementById('myText');
-    texthtml.innerHTML = text;
     // Pour l'interface de brat
     docData.text = text.replace(/<[^>]*>/g, '');
     // Charge les catégories du projet de façon asynchrone à l'aide du service CategoryService
