@@ -3,6 +3,9 @@ import { Entity } from '../shared/entity.model';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AnnotatedDocument } from '../shared/annotated-document.model';
 import { BratUtils } from './brat/brat-utils';
+import { MOCK_ENTITIES , ENTITIES } from './annotation.service.MOCKDATA';
+import { Response } from '@angular/http';
+
 
 @Injectable()
 export class AnnotationService {
@@ -14,6 +17,11 @@ export class AnnotationService {
   getProject(projectId): Promise<any> {
     return this.afs.collection('Projects/').doc(projectId).ref.get();
   }
+  getEntities(): Promise<any> {
+    return Promise.resolve(ENTITIES).then(data => data);
+
+  }
+
 
   saveAnnotatedDocument(annotatedDocument: AnnotatedDocument): void {
     if (annotatedDocument.documentId === null) {

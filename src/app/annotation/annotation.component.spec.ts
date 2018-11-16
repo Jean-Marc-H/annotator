@@ -54,9 +54,11 @@ describe('AnnotationComponent', () => {
     ProjectServiceStub = {
     };
 
-    AnnotationServiceStub = {
-      getEntities: function (projectId) { return Observable.of([]) },
-    };
+  //  AnnotationServiceStub = {
+      //getEntities: function (projectId) {  },
+
+
+  //  };
 
     TestBed.configureTestingModule({
       declarations: [AnnotationComponent],
@@ -112,5 +114,3 @@ describe('AnnotationComponent', () => {
     expect(compiled.querySelector('p').textContent).toContain('To add an annotation, highlight the text and choose the category.');
   }));
 });
-
-

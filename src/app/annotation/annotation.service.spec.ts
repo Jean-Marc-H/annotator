@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { } from 'jasmine';
-import { MOCK_ENTITIES } from './annotation.service.MOCKDATA';
+import { MOCK_ENTITIES, ENTITIES  } from './annotation.service.MOCKDATA';
 
 import { AnnotationService } from './annotation.service';
 
@@ -35,8 +35,9 @@ describe('Annotation', () => {
 
 
 
-  it('should allow to get entities for a certain project ID', inject([AnnotationService], (service: AnnotationService) => {
-    // expect(ENTITIES == service.getEntities(1));
+  it('should verify existence of entities ', inject([AnnotationService], (service: AnnotationService) => {
+      expect(ENTITIES).toEqual(jasmine.anything());
+
   }));
 
   xit('should only allow authenticated users to call the annotation service',
@@ -48,4 +49,5 @@ describe('Annotation', () => {
     inject([AnnotationService], (service: AnnotationService) => {
       // TODO Needs a better understanding of the Database
     }));
+
 });
