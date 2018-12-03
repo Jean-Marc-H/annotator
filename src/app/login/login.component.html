@@ -33,11 +33,16 @@
     <a (click)="signInWithGoogle()" class="socialIcon" style="background-image:url(./assets/flat_googleplus32x32.png)">
       Google Plus
     </a>
-    <a (click)="twitterLogin()" class="socialIcon" style="background-image:url(./assets/flat_twitter32x32.png)">
+  <!-- 
+       add the click function
+       call of function to load Twitter
+  -->
+    <a (click)="signInWithTwitterLogin()" class="socialIcon"
+    style="background-image:url(./assets/flat_twitter32x32.png)">
       Twitter
     </a>
     <a (click)="signInWithGithub()" class="socialIcon" style="background-image:url(./assets/flat_github32x32.png)">
-      Twitter
+      Github
     </a>
   </div>
 </div>

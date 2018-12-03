@@ -57,13 +57,13 @@ export class LoginComponent implements OnInit {
     this.authService.facebookLogin()
       .then((data) => this.afterSignIn());
   }
-
-  twitterLogin() {
-
+// Implementation of twitter function
+ signInWithTwitterLogin() {
+    this.authService.twitterLogin()
+      .then((data) => this.afterSignIn());
   }
 
   /// Shared
-
   private afterSignIn() {
     // Do after login stuff here, such router redirects, toast messages, etc.
     this.router.navigate(['/']);

@@ -10,7 +10,7 @@
 //
 // Secret​ ​:​ la correspondance entre l’identifant de l’utilisateur et du token
 // validant son authentification.
-
+//import the AuthService
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -23,7 +23,7 @@ import 'rxjs/add/operator/delay';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 import { Role, User } from '../user.model';
-
+//inject AuthService in the constructor
 @Injectable()
 export class AuthService {
   user: Observable<User>;
@@ -78,7 +78,13 @@ export class AuthService {
     return this.oAuthLogin(provider);
   }
 
-  private oAuthLogin(provider: firebase.auth.AuthProvider) {
+//create Twitter AuthProvider on firebase;
+  twitterLogin(){
+    const provider = new firebase.auth.TwitterAuthProvider();
+    return this.oAuthLogin(provider);
+  }
+  //load twitter window as POP-UP
+  private oAuthLogin(provider: firebase.auth.AuthProvider){
     return this.afAuth.auth.signInWithPopup(provider)
       .then((result) => {
         this.email = result.user.email;
@@ -122,6 +128,7 @@ export class AuthService {
   // If error, console log and notify user
   private handleError(error: Error) {
     console.error(error);
+
   }
 
   isConnected(): boolean {
