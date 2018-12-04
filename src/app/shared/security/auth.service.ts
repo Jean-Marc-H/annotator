@@ -43,7 +43,7 @@ export class AuthService {
     //// Get auth data, then get firestore user document || null
     this.user = this.afAuth.authState.switchMap(user => {
       if (user) {
-        return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+        return this.afs.doc<User>(`Users/${user.uid}`).valueChanges();
       } else {
         return Observable.of(null);
       }
@@ -71,7 +71,7 @@ export class AuthService {
           );
           resolve();
         })
-        .catch(function(error: Error) {
+        .catch(function (error: Error) {
           reject(error);
         });
     });
@@ -106,11 +106,13 @@ export class AuthService {
   }
 
   private oAuthLogin(provider: firebase.auth.AuthProvider): Promise<any> {
+    let uid = "";
     return new Promise((resolve, reject) => {
       this.afAuth.auth
         .signInWithPopup(provider)
         .then(result => {
           this.email = result.user.email;
+          uid = result.user.uid;
           this.afs
             .collection('Users')
             .ref.where('email', '==', this.email)
@@ -118,11 +120,25 @@ export class AuthService {
             .then(snapshot => {
               if (snapshot.size === 0) {
                 this.afs.collection('Users').ref.add({
-                  id: firebase.auth().currentUser.uid,
+                  uid: firebase.auth().currentUser.uid, // id remplacer par uid
                   email: this.email,
-                  firstname: '?',
-                  lastname: '?'
+                  firstname: firebase.auth().currentUser.displayName, // '?'
+                  lastname: '?',
+                  role: Role.Visitor // ajouter de la ligne 152
                 });
+              } else if (snapshot.size === 1) {
+                this.afs.collection('Users').ref.where('id', '==', uid).get()
+                  .then(snapshot => {
+                    if (snapshot.size === 1) {
+                      this.afs.doc('Users' + `/${uid}`).set({
+                        uid: firebase.auth().currentUser.uid,
+                        email: this.email,
+                        firstname: firebase.auth().currentUser.displayName, // '?'
+                        lastname: '?',
+                        role: Role.Visitor // ajouter de la ligne 152
+                      });
+                    }
+                  });
               }
             });
 
@@ -142,7 +158,7 @@ export class AuthService {
   private updateUserData(user) {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
-      `users/${user.uid}`
+      `Users/${user.uid}`
     );
     const data: User = {
       uid: user.uid,
@@ -156,10 +172,10 @@ export class AuthService {
   }
 
   signOut() {
-    this.afAuth.auth.signOut().then(() => {});
+    this.afAuth.auth.signOut().then(() => { });
   }
 
-  isConnected(): boolean {
-    return firebase.auth().currentUser != null;
+  async isConnected(): Promise<boolean> {
+    return await firebase.auth().currentUser != null;
   }
 }
