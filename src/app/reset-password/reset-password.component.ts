@@ -44,11 +44,4 @@ export class ResetPasswordComponent implements OnInit {
 	   console.log(error);
 		this.errorMessage=error.message})
   }
-<<<<<<< HEAD
-  emailInvalid(){
-	return this.errorMessage !== '';
-  }
 }
-=======
-}*/
->>>>>>> master
